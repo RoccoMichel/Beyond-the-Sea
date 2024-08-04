@@ -46,11 +46,12 @@
 
         /*CLASSES START*/
 
-        class Item()
+        //ITEM CLASS
+        class Item
         {
             public string name = "NULL";
             public string icon = "...";
-            public string discription = "[DISCRIPTION HERE]";
+            public string description = "[DISCRIPTION HERE]";
             public string[] bonuses = new string[3];
 
             public int level = 1;
@@ -86,14 +87,16 @@
                 }
             }
         }
-        class Shopkeeper()
+
+        //SHOPKEEPER CLASS
+        class Shopkeeper
         {
             string name = "NAME";
             int level = 1;
 
             public void ShopMenu()
             {
-                bool _shooping = true;
+                bool _shoping = true;
                 int selected = 0;
                 int menu = -1;
                 int error = 0;
@@ -143,11 +146,11 @@
 
                         //Leaving
                         case ConsoleKey.Tab:
-                            _shooping = false;
+                            _shoping = false;
                             break;
                     }
 
-                } while (_shooping);
+                } while (_shoping);
 
                 void CheckColor(int value, bool _menu)
                 {
@@ -172,7 +175,9 @@
                 }
             }
         }
-        class Enemy()
+
+        //ENEMY CLASS
+        class Enemy
         {
             public string name = "ENEMY";
             public float health = 10;
@@ -195,7 +200,9 @@
                 health -= amount;
             }
         }
-        class Player()
+
+        //PLAYER CLASS
+        class Player
         {
             //VARIABLES
             public string name = "YOU";
@@ -391,7 +398,7 @@
                     if (inventory.Count - 1 >= selected)
                     {
                         itemDisciption[0] = $"[{inventory[selected].rarity}] {inventory[selected].name} | {inventory[selected].level}";
-                        itemDisciption[1] = inventory[selected].discription;
+                        itemDisciption[1] = inventory[selected].description;
                         itemDisciption[2] = $"{inventory[selected].bonuses[0]}\n{inventory[selected].bonuses[1]}\n{inventory[selected].bonuses[2]}\n";
                     }
                     else
@@ -649,7 +656,9 @@
             }
             
         }
-        public class Input() //!\\ NEEDS TO BE IN AN ACTIVE LOOP //!\\
+
+        //INPUT CLASS
+        public class Input //!\\ NEEDS TO BE IN AN ACTIVE LOOP //!\\
         {
             public enum KeyCode 
             { 
@@ -767,14 +776,6 @@
         /*CLASSES END*/
 
         /*UNIVERSAL METHODS*/
-
-        static void Sound(int length)
-        {
-            for (int i = 0; i < length; i++)
-            {
-                Console.Beep();
-            }
-        }
         static void PrintSquares(int filled, int size)
         {
             if (filled > size)
