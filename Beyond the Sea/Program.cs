@@ -1,10 +1,17 @@
-﻿namespace Beyond_the_Sea //by ROCCO MICHEL | 2024
+﻿namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 {
     internal class Program
     {
         static void Main()
         {
-            //START UP
+            string[] saveStyle = ["[player level]", "[player xp]", "[stats (health, att, mag, attDef, magDef)]", "[player location]", "[inventory]"];
+            Data.SaveFile.Set(saveStyle);
+            Data.SaveFile.Read();
+            Console.Write(Data.SaveFile.Time());
+
+            Thread.Sleep(99999999);
+
+            // START UP
             Player TestSubject = new();
             Enemy Gnome = new()
             {
@@ -12,7 +19,7 @@
                 health = 100,
                 name = "GNOME"
             };
-            //TESTZONE START
+            // TESTZONE START
             Shopkeeper john = new();
             john.ShopMenu();
 
@@ -20,7 +27,7 @@
             Enemy[] fight1 = [Gnome, Gnome, Gnome];
             TestSubject.Battle(fight1);
 
-            //TESTZONE END
+            // TESTZONE END
 
             Console.Title = "Beyond the Sea";
             DefaultColor();
@@ -36,7 +43,7 @@
             } while (!Input.GetKeyDown(Input.KeyCode.ENTER));
             Console.Clear();
 
-            //Creating Character
+            // Creating Character
             Player Player = new();
             Player.PlayerCreator();
             Player.Inventory();
@@ -46,7 +53,7 @@
 
         /*CLASSES START*/
 
-        //ITEM CLASS
+        // ITEM CLASS
         class Item
         {
             public string name = "NULL";
@@ -66,21 +73,21 @@
             {
                 switch (type)
                 {
-                    //Healing
+                    // Healing
                     case ItemTypes.FOOD:
                         player.health += effectiveness;
                         break;
-                    //Defense
+                    // Defense
                     case ItemTypes.ARMOUR:
 
                         player.meleeDefense += effectiveness;
                         player.magicDefense += effectiveness;
                         break;
-                    //Melee Damage
+                    // Melee Damage
                     case ItemTypes.MELEEWEAPON:
                         player.meleeDamage += effectiveness;
                         break;
-                    //Magic Damage
+                    // Magic Damage
                     case ItemTypes.MAGICWEAPON:
                         player.magicDamage += effectiveness;
                         break;
@@ -88,7 +95,7 @@
             }
         }
 
-        //SHOPKEEPER CLASS
+        // SHOPKEEPER CLASS
         class Shopkeeper
         {
             string name = "NAME";
@@ -106,14 +113,14 @@
                     DefaultColor();
                     Console.Clear();
 
-                    //PRINT SCREEN
-                    //Title
+                    // PRINT SCREEN
+                    // Title
                     Console.Write($"\t    ");
                     SetColor("black", "white");
                     Console.WriteLine($" SHOPKEEPER [{name} | Lv. {level}]");
                     DefaultColor();
 
-                    //Menu
+                    // Menu
                     CheckColor(0, true);
                     Console.Write("\n\n\n[BUY]\t");
                     CheckColor(1, true);
@@ -124,27 +131,27 @@
                     Console.Write("[INSPECT]\n");
                     DefaultColor();
 
-                    //Help
+                    // Help
                     Console.WriteLine($"\n\n\n[HELP]\nBACK: [TAB]");
 
-                    //ERRORS
-                    if (error == 1) DisplayError("NA"); ///////////////////////////
+                    // ERRORS
+                    if (error == 1) DisplayError("NA"); // // // // // // // // // // // // //
                     error = 0;
 
-                    //INPUTS
+                    // INPUTS
                     ConsoleKey input = Console.ReadKey().Key;
                     switch (input)
                     {
-                        //Navigating
+                        // Navigating
                         case ConsoleKey.LeftArrow: if (menu == -1) selected--; break;
                         case ConsoleKey.RightArrow: if (menu == -1) selected++; break;
                         case ConsoleKey.A: if (menu == -1) selected--; break;
                         case ConsoleKey.D: if (menu == -1) selected++; break;
 
-                        //Selecting
+                        // Selecting
                         case ConsoleKey.Spacebar: if (menu == -1) menu = selected; break;
 
-                        //Leaving
+                        // Leaving
                         case ConsoleKey.Tab:
                             _shoping = false;
                             break;
@@ -176,7 +183,7 @@
             }
         }
 
-        //ENEMY CLASS
+        // ENEMY CLASS
         class Enemy
         {
             public string name = "ENEMY";
@@ -201,10 +208,10 @@
             }
         }
 
-        //PLAYER CLASS
+        // PLAYER CLASS
         class Player
         {
-            //VARIABLES
+            // VARIABLES
             public string name = "YOU";
             public float health;
             public float maxHealth;
@@ -214,7 +221,7 @@
             public float magicDefense;
 
             public int level = 1;
-            public float exp; //exp req for next lvl is: (int)100*(level*1.45)
+            public float exp; // exp req for next lvl is: (int)100*(level*1.45)
 
             public List<Item> inventory = [];
 
@@ -239,18 +246,18 @@
                     DefaultColor();
                     Console.Clear();
 
-                    //PRINT SCREEN
-                    //[ITEM]
+                    // PRINT SCREEN
+                    // [ITEM]
                     if (menu == 2) { Inventory(); menu = -1; }
 
 
-                    //Title
+                    // Title
                     Console.Write($"\t    ");
                     SetColor("black", "white");
                     Console.WriteLine(" BATTLE ");
                     DefaultColor();
 
-                    //Enemies
+                    // Enemies
                     for (int i = 0; i < enemies.Length; i++)
                     {
                         if (menu != -1) CheckColor(i, false);
@@ -260,7 +267,7 @@
                         Console.Write('\n');
                     }
 
-                    //Menu
+                    // Menu
                     CheckColor(0, true);
                     Console.Write("\n\n\n[MELEE]\t");
                     CheckColor(1, true);
@@ -270,45 +277,45 @@
                     CheckColor(3, true);
                     Console.Write("[INSPECT]\n");
 
-                    //health
+                    // health
                     SetColor("green", "black");
                     Console.Write("HP: ");
                     PrintSquares(10, 10);
                     DefaultColor();
 
-                    //Help
+                    // Help
                     Console.WriteLine($"\n\n\n[HELP]");
                     if (menu == -1) Console.WriteLine("MOVE: A/D | Left/Right Arrow Keys\nSELECT: [SPACE]");
                     if (menu == 0 || menu == 1 || menu == 3) Console.WriteLine("MOVE: W/S | Up/Down Arrow Keys\nSELECT: [SPACE]\nBACK: [TAB]");
 
-                    //ERRORS
-                    if (error == 1) DisplayError("NA"); ///////////////////////////
+                    // ERRORS
+                    if (error == 1) DisplayError("NA"); // // // // // // // // // // // // //
                     error = 0;
 
-                    //INPUTS
+                    // INPUTS
                     ConsoleKey input = Console.ReadKey().Key;
                     switch (input)
                     {
-                        //Navigation
-                        //buttom menu
+                        // Navigation
+                        // buttom menu
                         case ConsoleKey.LeftArrow: if (menu == -1)selected--; break;
                         case ConsoleKey.RightArrow: if (menu == -1) selected++; break;
                         case ConsoleKey.A: if (menu == -1) selected--; break;
                         case ConsoleKey.D: if (menu == -1) selected++; break;
-                        //enemy
+                        // enemy
                         case ConsoleKey.UpArrow: if (menu != -1) selected--; break;
                         case ConsoleKey.DownArrow: if (menu != -1) selected++; break;
                         case ConsoleKey.W: if (menu != -1) selected--; break;
                         case ConsoleKey.S: if (menu != -1) selected++; break;
 
-                        //Selecting
+                        // Selecting
                         case ConsoleKey.Spacebar:
-                            if (menu == -1) //menu
+                            if (menu == -1) // menu
                             {
                                 menu = selected;
                                 selected = 0;
                             }
-                            else //enemies
+                            else // enemies
                             {
                                 if (menu == 0) enemies[selected].TakeDamage(meleeDamage);
                                 if (menu == 1) enemies[selected].TakeDamage(magicDamage);
@@ -319,10 +326,10 @@
                             break;
 
 
-                        //Leaving
+                        // Leaving
                         case ConsoleKey.Tab: menu = -1; selected = 0; break;
 
-                        //DEBUG?
+                        // DEBUG?
                         case ConsoleKey.X: _fighting = false; break;
                     }
 
@@ -330,7 +337,7 @@
                     else selected = Math.Clamp(selected, 0, enemies.Length-1);
                 } while (_fighting);
 
-                //VICTORY
+                // VICTORY
                 Console.Clear();
                 Console.Write("YOU WON!\nYou got: [");
                 SetColor("green", "black");
@@ -379,7 +386,7 @@
                     DefaultColor();
                     Console.Clear();
 
-                    //PAGE PRINT
+                    // PAGE PRINT
                     Console.Write($"[{page}/{((int)inventory.Count / 15)+1}]\t      ");
                     SetColor("black", "white");
                     Console.WriteLine(" INVETORY ");
@@ -413,15 +420,15 @@
                     Console.WriteLine(itemDisciption[2]);
                     Console.WriteLine("\n\n[HELP]\nMOVE: W/A/S/D | Arrow Keys\nFLIP PAGE: E/Q\nSELECT: [SPACE]\nBACK: [TAB]");
 
-                    //ERRORS
-                    if (error == 1) DisplayError("NA"); /////////////////////////
+                    // ERRORS
+                    if (error == 1) DisplayError("NA"); // // // // // // // // // // // //
                     error = 0;
 
-                    //INPUTS
+                    // INPUTS
                     ConsoleKey input = Console.ReadKey().Key;
                     switch (input)
                     {
-                        //Navigating
+                        // Navigating
                         case ConsoleKey.UpArrow:
                             if (selected > 4 + (page - 1) * 15) selected -= 5; break;
                         case ConsoleKey.DownArrow:
@@ -439,7 +446,7 @@
                         case ConsoleKey.D:
                             selected++; break;
 
-                        //Page
+                        // Page
                         case ConsoleKey.E:  
                             if (((int)inventory.Count / 15) + 1 != page) selected += 15;
                             page++;
@@ -449,12 +456,12 @@
                             page--; 
                             break;
 
-                        //Using
+                        // Using
                         case ConsoleKey.Spacebar:
                             if (inventory.Count - 1 >= selected) inventory[selected].Use(this);
                             break;
 
-                        //Leaving
+                        // Leaving
                         case ConsoleKey.Tab: _browsing = false; break;
                     }
                     page = Math.Clamp(page, 1, ((int)inventory.Count / 15) + 1);
@@ -508,20 +515,20 @@
                 int magicAttPoints = 0;
                 int magicDefPoints = 0;
 
-                //PLAYER NAME
+                // PLAYER NAME
                 do
                 {
                     Console.Clear();
                     DefaultColor();
                     Console.Write("Enter your Character's Name: ");
                     SetColor("darkblue", "cyan");
-#pragma warning disable CS8600 //while statment checks if it is null
+#pragma warning disable CS8600 // while statment checks if it is null
                     userName = Console.ReadLine();
-#pragma warning restore CS8600 //so no warning needed
+#pragma warning restore CS8600 // so no warning needed
                     DefaultColor();
                 } while (string.IsNullOrWhiteSpace(userName));
 
-                //PLAYER STATS
+                // PLAYER STATS
                 selected = 0;
                 while (!_done)
                 {
@@ -549,14 +556,14 @@
                     Console.WriteLine("To Move: W/S | Up/Down Arrow Keys");
                     Console.WriteLine("To Invest: Points A/D | Left/Right Arrow Keys | Plus/Minus Keys\n");
 
-                    if (error == 1) DisplayError("#010201"); //SPEND POINTS FIRST
-                    else if (error == 2) DisplayError("##010201"); //NO POINTS LEFT
+                    if (error == 1) DisplayError("#010201"); // SPEND POINTS FIRST
+                    else if (error == 2) DisplayError("##010201"); // NO POINTS LEFT
 
                     error = 0;
                     ConsoleKey input = Console.ReadKey().Key;
                     switch (input)
                     {
-                        //Navigating
+                        // Navigating
                         case ConsoleKey.UpArrow:
                             selected--; break;
                         case ConsoleKey.W:
@@ -565,7 +572,7 @@
                             selected++; break;
                         case ConsoleKey.S:
                             selected++; break;
-                        //Point Investing
+                        // Point Investing
                         case ConsoleKey.A:
                             if (avaiablePoints < 8 + level) investPoints(-1); break;
                         case ConsoleKey.LeftArrow:
@@ -649,7 +656,7 @@
                     }
                 }
 
-                //APPLIENG VALUES
+                // APPLIENG VALUES
                 DefaultColor();
                 SetValues(userName, 10*(healthPoints+1), 10*(meleeAttPoints+1),10*(meleeDefPoints+1),10*(magicAttPoints+1),10*(magicDefPoints+1));
                 Console.Clear();
@@ -657,7 +664,7 @@
             
         }
 
-        //INPUT CLASS
+        // INPUT CLASS
         public class Input //!\\ NEEDS TO BE IN AN ACTIVE LOOP //!\\
         {
             public enum KeyCode 
@@ -673,7 +680,7 @@
             }
             public static bool GetKeyDown(KeyCode Key)
             {
-                //https://learn.microsoft.com/en-us/dotnet/api/system.consolekey?view=net-8.0
+                // https://learn.microsoft.com/en-us/dotnet/api/system.consolekey?view=net-8.0
 
                 ConsoleKey consoleKey = Console.ReadKey().Key;
                 switch (Key)
@@ -776,7 +783,7 @@
         /*CLASSES END*/
 
         /*UNIVERSAL METHODS*/
-        static void PrintSquares(int filled, int size)
+        static public void PrintSquares(int filled, int size)
         {
             if (filled > size)
             {
@@ -791,42 +798,53 @@
             Console.Write($"[{filled}]");
         }
 
-        static void DisplayError(string CODE)
+        static public void DisplayError(string CODE)
         {
-            ///<summary>
-            /// PLACEMENT IN CODE: At the buttom of your loop.
-            /// Best you save what error in an int and then use a
-            /// switch to set string code in the end.
-            /// BUT BEFORE any key checking. Else it is instatly removed
-            /// 
-            /// NAMING: #Class Number, Method Number, Number (just to sort you choose)
-            /// Exmaple: 18th Class, 3rd Method, 1st Number
-            /// would look like: #180301
-            /// Use: "NA" as a placeholder
-            /// 
-            /// No need to Organize in the switch unless very bored
-            /// </summary>
+            //
+            // PLACEMENT IN CODE: At the buttom of your loop.
+            // Best you save what error in an int and then use a
+            // switch to set string code in the end.
+            // BUT BEFORE any key checking. Else it is instatly removed
+            // 
+            // NAMING: #Class Number, Method Number, Number (just to sort you choose)
+            // Exmaple: 18th Class, 3rd Method, 1st Number
+            // would look like: #180301
+            // Use: "NA" as a placeholder
+            // 
+            // No need to Organize in the switch unless very bored
 
             SetColor("white", "red");
             switch (CODE)
             {
                 case "NA":
-                    Console.WriteLine("NO ERROR MESSAGE AVAILABLE, PLEACE CONTACT DEV!");
+                    Console.Write("\n NO ERROR MESSAGE AVAILABLE, PLEACE CONTACT DEV! ");
                     break;
+
+                // Program.cs
                 case "#000101":
-                    Console.WriteLine("PrintSquares() int filled > int size, PLEACE CONTACT DEV!");
+                    Console.Write("\n PrintSquares() int filled > int size, PLEACE CONTACT DEV! ");
                     break;
                 case "#010201":
-                    Console.WriteLine("\nYOU NEED TO SPEND ALL YOUR POINTS FIRST!");
+                    Console.Write("\n YOU NEED TO SPEND ALL YOUR POINTS FIRST! ");
                     break;
                 case "#010202":
-                    Console.WriteLine("\nYOU DO NOT HAVE ANY POINTS LEFT!");
+                    Console.Write("\n YOU DO NOT HAVE ANY POINTS LEFT! ");
+                    break;
+
+                //  Data.cs
+                case "#D10101":
+                    Console.Write("\n SAVE FILE NOT FOUND ");
+                    break;
+
+                case "#D10201":
+                    Console.Write("\n FILE NOT FOUND ");
                     break;
             }
+            Console.Write("\n\n");
             DefaultColor();
         }
 
-        static void SetColor(string foreground, string background)
+        static public void SetColor(string foreground, string background)
         {
             switch (foreground)
             {
@@ -908,7 +926,7 @@
             }
         }
         
-        static void DefaultColor()
+        static public void DefaultColor()
         {
             SetColor("white", "black");
         }
