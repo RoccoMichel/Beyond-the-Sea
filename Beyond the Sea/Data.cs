@@ -19,16 +19,28 @@ namespace Beyond_the_Sea
 #pragma warning disable CS8602
             private static readonly string directory = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Data");
 #pragma warning restore CS8602
-            private static readonly string fileName = "save.txt";
 
-            public static readonly string savePath = Path.Combine(directory, fileName);
+            static public void Load(int saveSlot)
+            {
+                string savePath = Path.Combine(directory, $"save{saveSlot}.json");
+                try
+                {
+                    //LOAD SOMEHOW GOOD LUCK FUTURE ME!
+                }
+                catch (Exception ex)
+                {
+                    if (File.Exists(savePath)) Error.Display("#D10101");
+                    else Console.WriteLine(ex.Message);
+                }
+            }
 
             /// <summary>
             /// Completely overwrite save.txt by setting it as a new sting array
             /// </summary>
             /// <param name="contents">String[] for every Line you want written</param>
-            static public void Set(string[] contents)
+            static public void Set(string[] contents, int saveSlot)
             {
+                string savePath = Path.Combine(directory, $"save{saveSlot}.json");
                 try
                 {
                     // Ensure direcotry exists
@@ -39,7 +51,7 @@ namespace Beyond_the_Sea
                 catch (Exception ex)
                 {
                     Console.Write(ex.ToString());
-                    Program.DisplayError("#D10101");
+                    Error.Display("#D10102");
                 }
                 finally
                 {
@@ -51,8 +63,10 @@ namespace Beyond_the_Sea
             /// Get method for save.txt
             /// </summary>
             /// <returns>A String[] of very line in the save.txt file</returns>
-            static public string[] Get()
+            static public string[] Get(int saveSlot)
             {
+                string savePath = Path.Combine(directory, $"save{saveSlot}.json");
+
                 try
                 {
                     return File.ReadAllLines(savePath);
@@ -67,8 +81,10 @@ namespace Beyond_the_Sea
             /// <summary>
             /// Read out save.txt using Console.WriteLine()
             /// </summary>
-            static public void Read()
+            static public void Read(int saveSlot)
             {
+                string savePath = Path.Combine(directory, $"save{saveSlot}.json");
+
                 try
                 {
                     string[] contents = File.ReadAllLines(savePath);
@@ -76,16 +92,28 @@ namespace Beyond_the_Sea
                 }
                 catch
                 {
-                    Program.DisplayError("#D10101");
+                    Error.Display("#D10101");
                 }                
+            }
+            /// <summary>
+            /// String returns a line of file player name and last time edited 
+            /// </summary>
+            /// <param name="slots"></param>
+            static public void Display(int slots)
+            {
+                    if (Exists(slots))
+                        Console.WriteLine($" {GetName(slots)} | {Time(slots)} ");
+                    else Error.Display("#D10101");                
             }
 
             /// <summary>
-            /// Get last time save.txt was edited
+            /// Get last time save.txt was edited as a string
             /// </summary>
             /// <returns>.ToString of DataTime</returns>
-            static public string Time()
+            static public string Time(int saveSlot)
             {
+                string savePath = Path.Combine(directory, $"save{saveSlot}.json");
+
                 try
                 {
                     return File.GetLastWriteTime(savePath).ToString(CultureInfo.InvariantCulture);
@@ -94,6 +122,44 @@ namespace Beyond_the_Sea
                 {
                     return "SAVE FILE TIME NOT FOUND";
                 }
+            }
+
+            static public int[] GetAllSlots()
+            {
+                List<int> results = new List<int>();
+
+                foreach (string file in Directory.GetFiles(directory, "*.json"))
+                {
+                    // Get slot number from the filename
+                    string fileName = Path.GetFileNameWithoutExtension(file);
+                    if (fileName.StartsWith("save") && int.TryParse(fileName.Substring(4), out int slot))
+                    {
+                        results.Add(slot);
+                    }
+                }
+                results.Sort();
+
+                return results.ToArray();
+            }
+
+            /// <summary>
+            /// Returns the name of the Player Character of the save file
+            /// </summary>
+            /// <param name="saveSlot">save file in question</param>
+            /// <returns></returns>
+            static public string GetName(int saveSlot)
+            {
+                return Get(saveSlot)[0];
+            }
+
+            /// <summary>
+            /// Returns a bool depending on the save slots existance.
+            /// </summary>
+            /// <param name="saveSlot"></param>
+            /// <returns></returns>
+            static public bool Exists(int saveSlot)
+            {
+                return File.Exists(Path.Combine(directory, $"save{saveSlot}.json"));
             }
         }
 
@@ -122,7 +188,7 @@ namespace Beyond_the_Sea
                 }
                 catch
                 {
-                    Program.DisplayError("#D10201");
+                    Error.Display("#D10201");
                 }
                 finally
                 {
@@ -159,7 +225,7 @@ namespace Beyond_the_Sea
                 }
                 catch
                 {
-                    Program.DisplayError("#D10101");
+                    Error.Display("#D10101");
                 }
             }
 

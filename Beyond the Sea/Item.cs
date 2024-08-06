@@ -31,7 +31,7 @@
             public enum Rarities { COMMON, UNCOMMON, RAR, EPIC, MYTHIC, LEGENDARY, unobtainable }
             public enum ItemTypes { FOOD, ARMOUR, MELEEWEAPON, MAGICWEAPON, VALUEABLE }
 
-            public void Use(Program.Player player)
+            public void Use(Player player)
             {
                 switch (type)
                 {
