@@ -35,12 +35,33 @@ namespace Beyond_the_Sea
             }
 
             /// <summary>
-            /// Completely overwrite save.txt by setting it as a new sting array
+            /// Deletes a save file in saveSlot
             /// </summary>
-            /// <param name="contents">String[] for every Line you want written</param>
-            static public void Set(string[] contents, int saveSlot)
+            /// <param name="saveSlot">number in file</param>
+            static public void Delete(int saveSlot)
             {
                 string savePath = Path.Combine(directory, $"save{saveSlot}.json");
+                if (Exists(saveSlot)) Console.WriteLine("FILE REMOVED");
+                File.Delete(savePath);               
+            }
+
+            /// <summary>
+            /// Completely overwrite save.txt by setting it as a new sting array 
+            /// Creates a new file if not found, so also a create method
+            /// </summary>
+            /// <param name="contents">String[] for every Line you want written</param>
+            /// <param name="saveSlot">Set -1 for unused slot</param>
+            static public void Set(string[] contents, int saveSlot)
+            {
+                // Look for new unsed slot
+                if (saveSlot == -1)
+                {
+                    saveSlot = 0;
+                    while (Exists(saveSlot)) saveSlot++;
+                }
+
+                string savePath = Path.Combine(directory, $"save{saveSlot}.json");
+
                 try
                 {
                     // Ensure direcotry exists
@@ -55,7 +76,7 @@ namespace Beyond_the_Sea
                 }
                 finally
                 {
-                    Console.WriteLine("Executed 'SaveSet'");
+                    Console.WriteLine("Executed 'Data.SaveFile.Set'");
                 }
             }
 
@@ -95,15 +116,16 @@ namespace Beyond_the_Sea
                     Error.Display("#D10101");
                 }                
             }
+
             /// <summary>
             /// String returns a line of file player name and last time edited 
             /// </summary>
             /// <param name="slots"></param>
-            static public void Display(int slots)
+            static public string Display(int slots)
             {
                     if (Exists(slots))
-                        Console.WriteLine($" {GetName(slots)} | {Time(slots)} ");
-                    else Error.Display("#D10101");                
+                        return $"{GetName(slots)} | {Time(slots)}";
+                    else Error.Display("#D10101"); return string.Empty;                
             }
 
             /// <summary>
@@ -124,22 +146,27 @@ namespace Beyond_the_Sea
                 }
             }
 
+            /// <summary>
+            /// int[] length is amount of slots and each value is
+            /// the saveSlot, usable for other methods
+            /// </summary>
+            /// <returns>number behind save*.json for every file</returns>
             static public int[] GetAllSlots()
             {
-                List<int> results = new List<int>();
+                List<int> results = [];
 
                 foreach (string file in Directory.GetFiles(directory, "*.json"))
                 {
                     // Get slot number from the filename
                     string fileName = Path.GetFileNameWithoutExtension(file);
-                    if (fileName.StartsWith("save") && int.TryParse(fileName.Substring(4), out int slot))
+                    if (fileName.StartsWith("save") && int.TryParse(fileName.AsSpan(4), out int slot))
                     {
                         results.Add(slot);
                     }
                 }
                 results.Sort();
 
-                return results.ToArray();
+                return [.. results];
             }
 
             /// <summary>
@@ -150,6 +177,16 @@ namespace Beyond_the_Sea
             static public string GetName(int saveSlot)
             {
                 return Get(saveSlot)[0];
+            }
+
+            /// <summary>
+            /// Returns level (int) of Player Character from a save file
+            /// </summary>
+            /// <param name="saveSlot">save file in question</param>
+            /// <returns></returns>
+            static public string GetLevel(int saveSlot)
+            {
+                return Get(saveSlot)[1];
             }
 
             /// <summary>

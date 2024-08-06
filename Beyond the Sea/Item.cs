@@ -3,7 +3,7 @@
     internal class Items
     {
         // AVAILABLE ITEMS
-        public Item apple = new()
+        readonly public Item apple = new()
         {
             name = "APPLE",
             icon = " ó ",

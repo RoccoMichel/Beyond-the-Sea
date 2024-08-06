@@ -35,6 +35,10 @@
                     Console.Write("\n YOU DO NOT HAVE ANY POINTS LEFT! ");
                     break;
 
+                case "#000302":
+                    Console.Write("\n ALREADY USING THIS SAVE SLOT ");
+                    break;
+
                 //  Data.cs
                 case "#D10101":
                     Console.Write("\n SAVE FILE NOT FOUND ");

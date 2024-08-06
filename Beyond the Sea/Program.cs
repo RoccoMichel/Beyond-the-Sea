@@ -4,10 +4,13 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 {
     internal class Program
     {
+        static public int saveSlot = 0;
         static void Main()
         {
-            string[] saveStyle = 
+            string[] saveStyle =
                 ["[player name]", "[player level]", "[player xp]", "[stats (health, att, mag, attDef, magDef)]", "[player location]", "[inventory]"];
+
+
 
             Game.SaveSlots();
 
@@ -51,28 +54,44 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 
         public class Game
         {
+            public static void PauseMenu()
+            {
+
+            }
+
             static public void SaveSlots()
             {
-                int[] targetSlots = Data.SaveFile.GetAllSlots();
+
                 int selected = 0;
                 bool _selecting = true;
-
                 int error = 0;
 
                 do
                 {
+                    int[] targetSlots = Data.SaveFile.GetAllSlots();
                     DefaultColor();
                     Console.Clear();
 
                     // PRINT SCREEN
+                    for(int i = 0; i < targetSlots.Length; i++)
+                    {
+                        CheckColor(i);
+                        Console.WriteLine($"\t   [ SLOT {i+1} ]");
+                        Console.WriteLine(Data.SaveFile.Display(targetSlots[i]) + '\n');
+                    }
 
-                    Console.Write(selected);
+                    CheckColor(targetSlots.Length);
+                    Console.WriteLine("\t   [NEW SLOT]\n CREATE A NEW SAVE SLOT");
+                    DefaultColor();
 
                     // Help
-                    Console.WriteLine($"\n\n\n[HELP]\nMOVE: W/S | Up/Down Arrow Keys\nLOAD: [SPACE]\nDELETE: [X]\nBACK: [TAB]");
+                    if (selected == targetSlots.Length) 
+                        Console.WriteLine($"\n\n\n[HELP]\nMOVE: [W/S] | [Up/Down]Arrow Keys\nCREATE: [ENTER]\nDELETE: [DEL]\nBACK: [TAB]");
+                    else
+                        Console.WriteLine($"\n\n\n[HELP]\nMOVE: [W/S] | [Up/Down]Arrow Keys\nLOAD: [ENTER]\nDELETE: [DEL]\nBACK: [TAB]");
 
                     // ERRORS
-                    if (error == 1) Error.Display("NA"); // // // // // // // // // // // // //
+                    if (error == 1) Error.Display("#000302"); // // // // // // // // // // // //
                     error = 0;
 
                     // INPUTS
@@ -93,15 +112,108 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
                             selected++;
                             break;
 
+                        // Load OR Create new
+                        case ConsoleKey.Enter:
+                            if (saveSlot != selected && Confirmation())
+                            {
+                                string[] TEMP = ["REPLACE", "LATER", "with game start up"]; // // // // //
+
+                                if (selected == targetSlots.Length) // NEW FILE
+                                    Data.SaveFile.Set(TEMP, -1);
+                                else Data.SaveFile.Load(targetSlots[selected]);
+
+
+
+
+                                saveSlot = selected;
+                            }
+                            else if (saveSlot == selected) error = 1;
+                            break;
+
+                        // Delete File
+                        case ConsoleKey.Delete:
+                            if(selected != targetSlots.Length && Confirmation())
+                                Data.SaveFile.Delete(targetSlots[selected]);
+                            break;
+
                         // Exit
                         case ConsoleKey.Tab:
                             _selecting = false;
                             break;
                     }
-                    
+
                     selected = Math.Clamp(selected, 0, targetSlots.Length);
 
                 } while (_selecting);
+
+                void CheckColor(int value)
+                {
+                    if (selected == value) SetColor("green", "black");
+                    else DefaultColor();
+                }
+            }
+
+            static public bool Confirmation()
+            {
+                bool choise = false;
+                bool _choosing = true;
+
+                do
+                {
+                    DefaultColor();
+                    Console.Clear();
+
+                    // PRINT SCREEN
+                    Console.WriteLine("CONFIRM CHOICE\n");
+                    if (choise)
+                    {
+                        SetColor("black", "white");
+                        Console.WriteLine(" >[CONFIRM]< ");
+                        DefaultColor();
+                        Console.WriteLine("  |CANCEL | ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("  |CONFIRM|  ");
+                        SetColor("black", "white");
+                        Console.WriteLine(" >[CANCEL ]< ");
+                        DefaultColor();
+                    }
+
+
+                    // HELP
+                    Console.WriteLine($"\n\n\n[HELP]\nMOVE: W/S | Up/Down Arrow Keys\nSELECT: [ENTER]\n\n\n");
+
+                    // INPUT
+                    ConsoleKey input = Console.ReadKey().Key;
+
+                    switch (input)
+                    {
+                        case ConsoleKey.W:
+                            choise = !choise;
+                            break;
+                        case ConsoleKey.S:
+                            choise = !choise;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            choise = !choise;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            choise = !choise;
+                            break;
+
+                        case ConsoleKey.Enter:
+                            _choosing = false;
+                            break;
+                    }
+
+                } while (_choosing);
+
+                Console.Clear();
+                Console.Write("working...");
+                Thread.Sleep(250);
+
+                return choise;
             }
         }
 
