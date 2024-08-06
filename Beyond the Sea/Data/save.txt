@@ -1,3 +1,5 @@
-save data, haha I 
-almost wrote dave data
-that would have been crazy
+[player level]
+[player xp]
+[stats (health, att, mag, attDef, magDef)]
+[player location]
+[inventory]

@@ -53,48 +53,6 @@
 
         /*CLASSES START*/
 
-        // ITEM CLASS
-        class Item
-        {
-            public string name = "NULL";
-            public string icon = "...";
-            public string description = "[DISCRIPTION HERE]";
-            public string[] bonuses = new string[3];
-
-            public int level = 1;
-            public int effectiveness = 1;
-            public ItemTypes type = ItemTypes.FOOD;
-            public Rarities rarity = Rarities.COMMON;
-
-            public enum Rarities { COMMON, UNCOMMON, RAR, EPIC, MYTHIC, LEGENDARY, unobtainable }
-            public enum ItemTypes { FOOD, ARMOUR, MELEEWEAPON, MAGICWEAPON, VALUEABLE}
-
-            public void Use(Player player)
-            {
-                switch (type)
-                {
-                    // Healing
-                    case ItemTypes.FOOD:
-                        player.health += effectiveness;
-                        break;
-                    // Defense
-                    case ItemTypes.ARMOUR:
-
-                        player.meleeDefense += effectiveness;
-                        player.magicDefense += effectiveness;
-                        break;
-                    // Melee Damage
-                    case ItemTypes.MELEEWEAPON:
-                        player.meleeDamage += effectiveness;
-                        break;
-                    // Magic Damage
-                    case ItemTypes.MAGICWEAPON:
-                        player.magicDamage += effectiveness;
-                        break;
-                }
-            }
-        }
-
         // SHOPKEEPER CLASS
         class Shopkeeper
         {
@@ -184,7 +142,7 @@
         }
 
         // ENEMY CLASS
-        class Enemy
+        public class Enemy
         {
             public string name = "ENEMY";
             public float health = 10;
@@ -209,7 +167,7 @@
         }
 
         // PLAYER CLASS
-        class Player
+        public class Player
         {
             // VARIABLES
             public string name = "YOU";
@@ -223,7 +181,7 @@
             public int level = 1;
             public float exp; // exp req for next lvl is: (int)100*(level*1.45)
 
-            public List<Item> inventory = [];
+            public List<Items.Item> inventory = [];
 
             public void SetValues(string name, float health, float meleeDamage, float meleeDefense, float magicDamage, float magicDefense)
             {
