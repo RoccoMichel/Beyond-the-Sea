@@ -53,7 +53,7 @@ namespace Beyond_the_Sea
             /// <param name="saveSlot">Set -1 for unused slot</param>
             static public void Set(string[] contents, int saveSlot)
             {
-                // Look for new unsed slot
+                // Look for new unused slot
                 if (saveSlot == -1)
                 {
                     saveSlot = 0;
@@ -64,7 +64,7 @@ namespace Beyond_the_Sea
 
                 try
                 {
-                    // Ensure direcotry exists
+                    // Ensure directory exists
                     if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
                     File.WriteAllLines(savePath, contents);
@@ -190,7 +190,7 @@ namespace Beyond_the_Sea
             }
 
             /// <summary>
-            /// Returns a bool depending on the save slots existance.
+            /// Returns a bool depending on the save slots existence.
             /// </summary>
             /// <param name="saveSlot"></param>
             /// <returns></returns>

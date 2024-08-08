@@ -30,8 +30,8 @@ namespace Beyond_the_Sea
             int selected = 0;
             int menu = -1;
             int error = 0;
-            int succsessEXP = 0;
-            foreach (Enemy enemy in enemies) succsessEXP += random.Next(5, 10) * enemy.level;
+            int successEXP = 0;
+            foreach (Enemy enemy in enemies) successEXP += random.Next(5, 10) * enemy.level;
 
 
             do
@@ -90,7 +90,7 @@ namespace Beyond_the_Sea
                 switch (input)
                 {
                     // Navigation
-                    // buttom menu
+                    // bottom menu
                     case ConsoleKey.LeftArrow: if (menu == -1) selected--; break;
                     case ConsoleKey.RightArrow: if (menu == -1) selected++; break;
                     case ConsoleKey.A: if (menu == -1) selected--; break;
@@ -134,8 +134,8 @@ namespace Beyond_the_Sea
             Console.Clear();
             Console.Write("YOU WON!\nYou got: [");
             SetColor("green", "black");
-            Console.Write($"+{succsessEXP} EXP");
-            exp += succsessEXP;
+            Console.Write($"+{successEXP} EXP");
+            exp += successEXP;
             DefaultColor();
             Console.WriteLine($"]\n{exp} / {(int)100 * (level * 1.45)} EXP\n\nPress [ANY KEY] to continue.");
             Console.ReadKey();
@@ -168,7 +168,7 @@ namespace Beyond_the_Sea
 
         public void Inventory()
         {
-            string[] itemDisciption = ["- RARITY | NAME | Lv -", "- DISCRIPTION -", "- Bonuses? -\n\n\n"];
+            string[] itemDescription = ["- RARITY | NAME | Lv -", "- DISCRIPTION -", "- Bonuses? -\n\n\n"];
             int page = 1;
             int error = 0;
             int selected = 0;
@@ -197,20 +197,20 @@ namespace Beyond_the_Sea
 
                 if (inventory.Count - 1 >= selected)
                 {
-                    itemDisciption[0] = $"[{inventory[selected].rarity}] {inventory[selected].name} | {inventory[selected].level}";
-                    itemDisciption[1] = inventory[selected].description;
-                    itemDisciption[2] = $"{inventory[selected].bonuses[0]}\n{inventory[selected].bonuses[1]}\n{inventory[selected].bonuses[2]}\n";
+                    itemDescription[0] = $"[{inventory[selected].rarity}] {inventory[selected].name} | {inventory[selected].level}";
+                    itemDescription[1] = inventory[selected].description;
+                    itemDescription[2] = $"{inventory[selected].bonuses[0]}\n{inventory[selected].bonuses[1]}\n{inventory[selected].bonuses[2]}\n";
                 }
                 else
                 {
-                    itemDisciption[0] = "[EMPTY]";
-                    itemDisciption[1] = string.Empty;
-                    itemDisciption[2] = "\n\n\n";
+                    itemDescription[0] = "[EMPTY]";
+                    itemDescription[1] = string.Empty;
+                    itemDescription[2] = "\n\n\n";
                 }
 
-                Console.WriteLine(itemDisciption[0]);
-                Console.WriteLine(itemDisciption[1]);
-                Console.WriteLine(itemDisciption[2]);
+                Console.WriteLine(itemDescription[0]);
+                Console.WriteLine(itemDescription[1]);
+                Console.WriteLine(itemDescription[2]);
                 Console.WriteLine("\n\n[HELP]\nMOVE: W/A/S/D | Arrow Keys\nFLIP PAGE: E/Q\nSELECT: [SPACE]\nBACK: [TAB]");
 
                 // ERRORS
@@ -296,7 +296,7 @@ namespace Beyond_the_Sea
         public void PlayerCreator()
         {
             bool _done = false;
-            int avaiablePoints = 8 + level;
+            int availablePoints = 8 + level;
             string userName;
 
             int error = 0;
@@ -326,7 +326,7 @@ namespace Beyond_the_Sea
             while (!_done)
             {
                 Console.Clear();
-                Console.Write($"[{userName}] | POINTS LEFT: [{avaiablePoints}]\n");
+                Console.Write($"[{userName}] | POINTS LEFT: [{availablePoints}]\n");
 
                 CheckColor(0);
                 Console.Write("\nHealth:\t\t");
@@ -367,23 +367,23 @@ namespace Beyond_the_Sea
                         selected++; break;
                     // Point Investing
                     case ConsoleKey.A:
-                        if (avaiablePoints < 8 + level) investPoints(-1); break;
+                        if (availablePoints < 8 + level) investPoints(-1); break;
                     case ConsoleKey.LeftArrow:
-                        if (avaiablePoints < 8 + level) investPoints(-1); break;
+                        if (availablePoints < 8 + level) investPoints(-1); break;
                     case ConsoleKey.OemMinus:
-                        if (avaiablePoints < 8 + level) investPoints(-1); break;
+                        if (availablePoints < 8 + level) investPoints(-1); break;
                     case ConsoleKey.D:
-                        if (avaiablePoints > 0) investPoints(1);
+                        if (availablePoints > 0) investPoints(1);
                         else error = 2; break;
                     case ConsoleKey.RightArrow:
-                        if (avaiablePoints > 0) investPoints(1);
+                        if (availablePoints > 0) investPoints(1);
                         else error = 2; break;
                     case ConsoleKey.OemPlus:
-                        if (avaiablePoints > 0) investPoints(1);
+                        if (availablePoints > 0) investPoints(1);
                         else error = 2; break;
 
                     case ConsoleKey.Enter:
-                        if (avaiablePoints == 0 || healthPoints == 9 && meleeAttPoints == 9 &&
+                        if (availablePoints == 0 || healthPoints == 9 && meleeAttPoints == 9 &&
                             meleeDefPoints == 9 && magicAttPoints == 9 && magicDefPoints == 9)
                             _done = true;
                         else error = 1;
@@ -395,42 +395,42 @@ namespace Beyond_the_Sea
 
                 void investPoints(int amount)
                 {
-                    if (avaiablePoints == 0) error = 2;
+                    if (availablePoints == 0) error = 2;
                     switch (selected)
                     {
                         case 0:
                             if (amount < 0 && healthPoints > 0 || amount > 0 && healthPoints < 9)
                             {
                                 healthPoints += amount;
-                                avaiablePoints -= amount;
+                                availablePoints -= amount;
                             }
                             break;
                         case 1:
                             if (amount < 0 && meleeAttPoints > 0 || amount > 0 && meleeAttPoints < 9)
                             {
                                 meleeAttPoints += amount;
-                                avaiablePoints -= amount;
+                                availablePoints -= amount;
                             }
                             break;
                         case 2:
                             if (amount < 0 && meleeDefPoints > 0 || amount > 0 && meleeDefPoints < 9)
                             {
                                 meleeDefPoints += amount;
-                                avaiablePoints -= amount;
+                                availablePoints -= amount;
                             }
                             break;
                         case 3:
                             if (amount < 0 && magicAttPoints > 0 || amount > 0 && magicAttPoints < 9)
                             {
                                 magicAttPoints += amount;
-                                avaiablePoints -= amount;
+                                availablePoints -= amount;
                             }
                             break;
                         case 4:
                             if (amount < 0 && magicDefPoints > 0 || amount > 0 && magicDefPoints < 9)
                             {
                                 magicDefPoints += amount;
-                                avaiablePoints -= amount;
+                                availablePoints -= amount;
                             }
                             break;
                     }

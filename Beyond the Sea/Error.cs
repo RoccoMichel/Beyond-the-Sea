@@ -4,14 +4,13 @@
     {
         static public void Display(string CODE)
         {
-            //
-            // PLACEMENT IN CODE: At the buttom of your loop.
+            // PLACEMENT IN CODE: At the bottom of your loop.
             // Best you save what error in an int and then use a
             // switch to set string code in the end.
-            // BUT BEFORE any key checking. Else it is instatly removed
+            // BUT BEFORE any key checking. Else it is instantly removed
             // 
             // NAMING: #Class Number, Method Number, Number (just to sort you choose)
-            // Exmaple: 18th Class, 3rd Method, 1st Number
+            // Example: 18th Class, 3rd Method, 1st Number
             // would look like: #180301
             // Use: "NA" as a placeholder
             // 

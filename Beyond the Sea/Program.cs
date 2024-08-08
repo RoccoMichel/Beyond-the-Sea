@@ -1,16 +1,22 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
+﻿namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 {
     internal class Program
     {
         static public int saveSlot = 0;
         static void Main()
         {
+            Console.Title = "Beyond the Sea";
             string[] saveStyle =
                 ["[player name]", "[player level]", "[player xp]", "[stats (health, att, mag, attDef, magDef)]", "[player location]", "[inventory]"];
 
+            string conv1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
+                "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " +
+                "qui officia deserunt mollit anim id est laborum.";
 
+            WriteWords(conv1, true, 0, 250);
+
+            Thread.Sleep(99999);
 
             Game.SaveSlots();
 
@@ -50,13 +56,57 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
             Player Player = new();
             Player.PlayerCreator();
             Player.Inventory();
+
+            //END
+            return;
         }
 
         public class Game
         {
             public static void PauseMenu()
             {
+                int selected = 0;
+                bool _paused = true;
 
+                do
+                {
+                    // PRINT SCREEN
+                    SetColor("black", "white");
+                    Console.WriteLine(" PAUSED ");
+                    DefaultColor();
+                    Console.WriteLine(" RESUME GAME ");
+                    Console.WriteLine(" SAVES SLOTS ");
+                    Console.WriteLine(" QUIT PROGRAM ");
+
+
+
+                    // Inputs
+                    ConsoleKey input = Console.ReadKey().Key;
+
+                    switch (input)
+                    {
+                        // Navigating
+                        case ConsoleKey.W:
+                            selected--;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            selected--;
+                            break;
+                        case ConsoleKey.S:
+                            selected++;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            selected++;
+                            break;
+
+                        // Select
+                        case ConsoleKey.Enter:
+                            if (selected == 0) _paused = false; // resume
+                            if (selected == 2) SaveSlots(); // manage save slots
+                            if (selected == 2 && Confirmation()) Environment.Exit(0); // exit
+                            break;
+                    }
+                } while (_paused);
             }
 
             static public void SaveSlots()
@@ -155,7 +205,7 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 
             static public bool Confirmation()
             {
-                bool choise = false;
+                bool choice = false;
                 bool _choosing = true;
 
                 do
@@ -165,7 +215,7 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 
                     // PRINT SCREEN
                     Console.WriteLine("CONFIRM CHOICE\n");
-                    if (choise)
+                    if (choice)
                     {
                         SetColor("black", "white");
                         Console.WriteLine(" >[CONFIRM]< ");
@@ -190,16 +240,16 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
                     switch (input)
                     {
                         case ConsoleKey.W:
-                            choise = !choise;
+                            choice = !choice;
                             break;
                         case ConsoleKey.S:
-                            choise = !choise;
+                            choice = !choice;
                             break;
                         case ConsoleKey.UpArrow:
-                            choise = !choise;
+                            choice = !choice;
                             break;
                         case ConsoleKey.DownArrow:
-                            choise = !choise;
+                            choice = !choice;
                             break;
 
                         case ConsoleKey.Enter:
@@ -213,7 +263,7 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
                 Console.Write("working...");
                 Thread.Sleep(250);
 
-                return choise;
+                return choice;
             }
         }
 
@@ -229,7 +279,7 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 
             public void ShopMenu()
             {
-                bool _shoping = true;
+                bool _shopping = true;
                 int selected = 0;
                 int menu = -1;
                 int error = 0;
@@ -279,11 +329,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 
                         // Leaving
                         case ConsoleKey.Tab:
-                            _shoping = false;
+                            _shopping = false;
                             break;
                     }
 
-                } while (_shoping);
+                } while (_shopping);
 
                 void CheckColor(int value, bool _menu)
                 {
@@ -426,8 +476,194 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         }
 
         /*CLASSES END*/
-
         /*UNIVERSAL METHODS*/
+
+        // PRINT LETTERS
+
+        /// <summary>
+        /// Writes each character within a string. 
+        /// At a default speed of 100 ms (1/10 of a second). 
+        /// Ends on the next line. 
+        /// </summary>
+        /// <param name="print">Target array of characters.</param>
+        static public void WriteLetters(string print)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                Thread.Sleep(100);
+            }
+
+            Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes each character within a string. 
+        /// Ends on the next line. 
+        /// </summary>
+        /// <param name="print">Target array of characters.</param>
+        /// <param name="speed">The number of milliseconds between each character.</param>
+        static public void WriteLetters(string print, int speed)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                Thread.Sleep(speed);
+            }
+
+           Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes each character within a string. 
+        /// At a default speed of 100 ms (1/10 of a second). 
+        /// </summary>
+        /// <param name="print">Target array of characters.</param>
+        /// <param name="endLine">If printing should end on the next line.</param>
+        static public void WriteLetters(string print, bool endLine)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                Thread.Sleep(100);
+            }
+
+            if (endLine) Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes each character within a string. 
+        /// </summary>
+        /// <param name="print">Target array of characters.</param>
+        /// <param name="speed">The number of milliseconds between each character.</param>
+        /// <param name="endLine">If printing should end on the next line.</param>
+        static public void WriteLetters(string print, bool endLine, int speed)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                Thread.Sleep(speed);
+            }
+
+            if (endLine) Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes each character within a string. 
+        /// With random pause length based on a min and max value. 
+        /// </summary>
+        /// <param name="print">Target array of characters.</param>
+        /// <param name="endLine">If printing should end on the next line.</param>
+        /// <param name="minSpeed">Minimum possible pause length INCLUSIVE (Milliseconds)</param>
+        /// <param name="maxSpeed">Maximum possible pause length INCLUSIVE (Milliseconds)</param>
+        static public void WriteLetters(string print, bool endLine, int minSpeed, int maxSpeed)
+        {
+            Random random = new Random();
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                Thread.Sleep(random.Next(minSpeed, maxSpeed + 1));
+            }
+
+            if (endLine) Console.Write('\n');
+        }
+
+        // PRINT WORDS
+
+        /// <summary>
+        /// Writes out a string with pauses at each space or other special character. 
+        /// At a default pause of 500ms (1/2 second) between each word. 
+        /// Ends on the next Line. 
+        /// </summary>
+        /// <param name="print">Target string that will be written.</param>
+        static public void WriteWords(string print)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=') 
+                    Thread.Sleep(500);
+            }
+
+            Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes out a string with pauses at each space or other special character. 
+        /// Ends on the next Line. 
+        /// </summary>
+        /// <param name="print">Target string that will be written.</param>
+        /// <param name="speed">The number of milliseconds between each character.</param>
+        static public void WriteWords(string print, int speed)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                    Thread.Sleep(speed);
+            }
+
+            Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes out a string with pauses at each space or other special character. 
+        /// At a default pause of 500ms (1/2 second) between each word. 
+        /// </summary>
+        /// <param name="print">Target string that will be written.</param>
+        /// <param name="endLine">If printing should end on the next line.</param>
+        static public void WriteWords(string print, bool endLine)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                    Thread.Sleep(500);
+            }
+
+            if (endLine) Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes out a string with pauses at each space or other special character. 
+        /// </summary>
+        /// <param name="print">Target string that will be written.</param>
+        /// <param name="speed">The number of milliseconds between each character.</param>
+        /// <param name="endLine">If printing should end on the next line.</param>
+        static public void WriteWords(string print, bool endLine, int speed)
+        {
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                    Thread.Sleep(speed);
+            }
+
+            if (endLine) Console.Write('\n');
+        }
+
+        /// <summary>
+        /// Writes out a string with random pause length based on 
+        /// a min and max value at each space or other special character. 
+        /// </summary>
+        /// <param name="print">Target string that will be written.</param>
+        /// <param name="endLine">If printing should end on the next line.</param>
+        /// <param name="minSpeed">Minimum possible pause length INCLUSIVE (Milliseconds)</param>
+        /// <param name="maxSpeed">Maximum possible pause length INCLUSIVE (Milliseconds)</param>
+        static public void WriteWords(string print, bool endLine, int minSpeed, int maxSpeed)
+        {
+            Random random = new Random();
+            foreach (char c in print)
+            {
+                Console.Write(c);
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                    Thread.Sleep(random.Next(minSpeed, maxSpeed + 1));
+            }
+
+            if (endLine) Console.Write('\n');
+        }
+
+
         static public void PrintSquares(int filled, int size)
         {
             if (filled > size)
