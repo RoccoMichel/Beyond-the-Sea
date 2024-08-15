@@ -128,6 +128,15 @@ namespace Beyond_the_Sea
 
                 if (menu == -1) selected = Math.Clamp(selected, 0, 3);
                 else selected = Math.Clamp(selected, 0, enemies.Length - 1);
+
+                // Victory check
+                bool victory = true;
+                foreach (Enemy enemy in enemies)
+                {
+                    if (enemy.health <= 0 && victory) victory = true;
+                    else victory = false;
+                }
+                if (_fighting) _fighting = !victory;
             } while (_fighting);
 
             // VICTORY

@@ -1,42 +1,13 @@
-﻿namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
+﻿using static Beyond_the_Sea.NPC;
+
+namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 {
     internal class Program
     {
         static public int saveSlot = 0;
         static void Main()
         {
-            Console.Title = "Beyond the Sea";
-            string[] saveStyle =
-                ["[player name]", "[player level]", "[player xp]", "[stats (health, att, mag, attDef, magDef)]", "[player location]", "[inventory]"];
-
-            string conv1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
-                "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa " +
-                "qui officia deserunt mollit anim id est laborum.";
-
-            WriteWords(conv1, true, 0, 250);
-
-            Thread.Sleep(99999);
-
-            Game.SaveSlots();
-
-            // START UP
-            Player TestSubject = new();
-            Enemy Gnome = new()
-            {
-                level = 1,
-                health = 100,
-                name = "GNOME"
-            };
-            // TESTZONE START
-            Shopkeeper john = new();
-            john.ShopMenu();
-
-
-            Enemy[] fight1 = [Gnome, Gnome, Gnome];
-            TestSubject.Battle(fight1);
-
-            // TESTZONE END
+            //Conversation.WakeUp();
 
             Console.Title = "Beyond the Sea";
             DefaultColor();
@@ -52,10 +23,22 @@
             } while (!Input.GetKeyDown(Input.KeyCode.ENTER));
             Console.Clear();
 
+
+            string[] saveStyle =
+                ["[player name]", "[player level]", "[player xp]", "[stats (health, att, mag, attDef, magDef)]", "[player location]", "[inventory]"];
+
+
             // Creating Character
             Player Player = new();
             Player.PlayerCreator();
-            Player.Inventory();
+
+            //Game.SaveSlots();
+
+            // START UP
+
+
+            Enemy[] fight1 = [Templates.Gnome, Templates.Gnome, Templates.Gnome];
+            Player.Battle(fight1);
 
             //END
             return;
@@ -271,94 +254,6 @@
 
         /*CLASSES START*/
 
-        // SHOPKEEPER CLASS
-        public class Shopkeeper
-        {
-            string name = "NAME";
-            int level = 1;
-
-            public void ShopMenu()
-            {
-                bool _shopping = true;
-                int selected = 0;
-                int menu = -1;
-                int error = 0;
-
-                do
-                {
-                    DefaultColor();
-                    Console.Clear();
-
-                    // PRINT SCREEN
-                    // Title
-                    Console.Write($"\t    ");
-                    SetColor("black", "white");
-                    Console.WriteLine($" SHOPKEEPER [{name} | Lv. {level}]");
-                    DefaultColor();
-
-                    // Menu
-                    CheckColor(0, true);
-                    Console.Write("\n\n\n[BUY]\t");
-                    CheckColor(1, true);
-                    Console.Write("[SELL]\t");
-                    CheckColor(2, true);
-                    Console.Write("[CHAT]\t");
-                    CheckColor(3, true);
-                    Console.Write("[INSPECT]\n");
-                    DefaultColor();
-
-                    // Help
-                    Console.WriteLine($"\n\n\n[HELP]\nBACK: [TAB]");
-
-                    // ERRORS
-                    if (error == 1) Error.Display("NA"); // // // // // // // // // // // // //
-                    error = 0;
-
-                    // INPUTS
-                    ConsoleKey input = Console.ReadKey().Key;
-                    switch (input)
-                    {
-                        // Navigating
-                        case ConsoleKey.LeftArrow: if (menu == -1) selected--; break;
-                        case ConsoleKey.RightArrow: if (menu == -1) selected++; break;
-                        case ConsoleKey.A: if (menu == -1) selected--; break;
-                        case ConsoleKey.D: if (menu == -1) selected++; break;
-
-                        // Selecting
-                        case ConsoleKey.Spacebar: if (menu == -1) menu = selected; break;
-
-                        // Leaving
-                        case ConsoleKey.Tab:
-                            _shopping = false;
-                            break;
-                    }
-
-                } while (_shopping);
-
-                void CheckColor(int value, bool _menu)
-                {
-                    if (_menu)
-                    {
-                        if (menu == -1)
-                        {
-                            if (selected == value) SetColor("green", "black");
-                            else DefaultColor();
-                        }
-                        else
-                        {
-                            if (menu == value) SetColor("green", "black");
-                            else DefaultColor();
-                        }
-                    }
-                    else
-                    {
-                        if (selected == value) SetColor("green", "black");
-                        else DefaultColor();
-                    }
-                }
-            }
-        }
-
         // INPUT CLASS
         public class Input //!\\ NEEDS TO BE IN AN ACTIVE LOOP //!\\
         {
@@ -558,7 +453,7 @@
         /// <param name="maxSpeed">Maximum possible pause length INCLUSIVE (Milliseconds)</param>
         static public void WriteLetters(string print, bool endLine, int minSpeed, int maxSpeed)
         {
-            Random random = new Random();
+            Random random = new();
             foreach (char c in print)
             {
                 Console.Write(c);
@@ -581,7 +476,7 @@
             foreach (char c in print)
             {
                 Console.Write(c);
-                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=') 
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(500);
             }
 
@@ -599,7 +494,7 @@
             foreach (char c in print)
             {
                 Console.Write(c);
-                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(speed);
             }
 
@@ -617,7 +512,7 @@
             foreach (char c in print)
             {
                 Console.Write(c);
-                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(500);
             }
 
@@ -635,7 +530,7 @@
             foreach (char c in print)
             {
                 Console.Write(c);
-                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(speed);
             }
 
@@ -652,11 +547,11 @@
         /// <param name="maxSpeed">Maximum possible pause length INCLUSIVE (Milliseconds)</param>
         static public void WriteWords(string print, bool endLine, int minSpeed, int maxSpeed)
         {
-            Random random = new Random();
+            Random random = new();
             foreach (char c in print)
             {
                 Console.Write(c);
-                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=')
+                if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(random.Next(minSpeed, maxSpeed + 1));
             }
 
