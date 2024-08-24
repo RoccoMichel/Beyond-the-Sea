@@ -1,4 +1,6 @@
 ﻿using static Beyond_the_Sea.NPC;
+using static System.Console;
+using System.Numerics;
 
 namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 {
@@ -7,21 +9,25 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         static public int saveSlot = 0;
         static void Main()
         {
-            //Conversation.WakeUp();
+            // HOLY SHIT I SHOULD FIGURE OUT SOME KIND OF COLOR FADE EFFECT (using lerps???)
 
-            Console.Title = "Beyond the Sea";
+            Scenes.Island.Explore(new Vector2(10, 3));
+
+            /* TEST ZONE END */
+
+            Title = "Beyond the Sea";
             DefaultColor();
             do
             {
-                Console.Clear();
-                Console.Write("WELCOME TO: ");
+                Clear();
+                Write("WELCOME TO: ");
                 SetColor("black", "white");
-                Console.WriteLine(" BEYOND THE SEA ");
+                WriteLine(" BEYOND THE SEA ");
                 DefaultColor();
-                Console.Write("a console app by:\n[ROCCO MICHEL] | 2024\n");
-                Console.WriteLine("\n\nPress: [ENTER] to Start!");
+                Write("a console app by:\n[ROCCO MICHEL] | 2024\n");
+                WriteLine("\n\nPress: [ENTER] to Start!");
             } while (!Input.GetKeyDown(Input.KeyCode.ENTER));
-            Console.Clear();
+            Clear();
 
 
             string[] saveStyle =
@@ -55,16 +61,16 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
                 {
                     // PRINT SCREEN
                     SetColor("black", "white");
-                    Console.WriteLine(" PAUSED ");
+                    WriteLine(" PAUSED ");
                     DefaultColor();
-                    Console.WriteLine(" RESUME GAME ");
-                    Console.WriteLine(" SAVES SLOTS ");
-                    Console.WriteLine(" QUIT PROGRAM ");
+                    WriteLine(" RESUME GAME ");
+                    WriteLine(" SAVES SLOTS ");
+                    WriteLine(" QUIT PROGRAM ");
 
 
 
                     // Inputs
-                    ConsoleKey input = Console.ReadKey().Key;
+                    ConsoleKey input = ReadKey().Key;
 
                     switch (input)
                     {
@@ -103,32 +109,32 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
                 {
                     int[] targetSlots = Data.SaveFile.GetAllSlots();
                     DefaultColor();
-                    Console.Clear();
+                    Clear();
 
                     // PRINT SCREEN
                     for(int i = 0; i < targetSlots.Length; i++)
                     {
                         CheckColor(i);
-                        Console.WriteLine($"\t   [ SLOT {i+1} ]");
-                        Console.WriteLine(Data.SaveFile.Display(targetSlots[i]) + '\n');
+                        WriteLine($"\t   [ SLOT {i+1} ]");
+                        WriteLine(Data.SaveFile.Display(targetSlots[i]) + '\n');
                     }
 
                     CheckColor(targetSlots.Length);
-                    Console.WriteLine("\t   [NEW SLOT]\n CREATE A NEW SAVE SLOT");
+                    WriteLine("\t   [NEW SLOT]\n CREATE A NEW SAVE SLOT");
                     DefaultColor();
 
                     // Help
                     if (selected == targetSlots.Length) 
-                        Console.WriteLine($"\n\n\n[HELP]\nMOVE: [W/S] | [Up/Down]Arrow Keys\nCREATE: [ENTER]\nDELETE: [DEL]\nBACK: [TAB]");
+                        WriteLine($"\n\n\n[HELP]\nMOVE: [W/S] | [Up/Down]Arrow Keys\nCREATE: [ENTER]\nDELETE: [DEL]\nBACK: [TAB]");
                     else
-                        Console.WriteLine($"\n\n\n[HELP]\nMOVE: [W/S] | [Up/Down]Arrow Keys\nLOAD: [ENTER]\nDELETE: [DEL]\nBACK: [TAB]");
+                        WriteLine($"\n\n\n[HELP]\nMOVE: [W/S] | [Up/Down]Arrow Keys\nLOAD: [ENTER]\nDELETE: [DEL]\nBACK: [TAB]");
 
                     // ERRORS
                     if (error == 1) Error.Display("#000302"); // // // // // // // // // // // //
                     error = 0;
 
                     // INPUTS
-                    ConsoleKey input = Console.ReadKey().Key;
+                    ConsoleKey input = ReadKey().Key;
                     switch(input)
                     {
                         // Navigating
@@ -194,31 +200,31 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
                 do
                 {
                     DefaultColor();
-                    Console.Clear();
+                    Clear();
 
                     // PRINT SCREEN
-                    Console.WriteLine("CONFIRM CHOICE\n");
+                    WriteLine("CONFIRM CHOICE\n");
                     if (choice)
                     {
                         SetColor("black", "white");
-                        Console.WriteLine(" >[CONFIRM]< ");
+                        WriteLine(" >[CONFIRM]< ");
                         DefaultColor();
-                        Console.WriteLine("  |CANCEL | ");
+                        WriteLine("  |CANCEL | ");
                     }
                     else
                     {
-                        Console.WriteLine("  |CONFIRM|  ");
+                        WriteLine("  |CONFIRM|  ");
                         SetColor("black", "white");
-                        Console.WriteLine(" >[CANCEL ]< ");
+                        WriteLine(" >[CANCEL ]< ");
                         DefaultColor();
                     }
 
 
                     // HELP
-                    Console.WriteLine($"\n\n\n[HELP]\nMOVE: W/S | Up/Down Arrow Keys\nSELECT: [ENTER]\n\n\n");
+                    WriteLine($"\n\n\n[HELP]\nMOVE: W/S | Up/Down Arrow Keys\nSELECT: [ENTER]\n\n\n");
 
                     // INPUT
-                    ConsoleKey input = Console.ReadKey().Key;
+                    ConsoleKey input = ReadKey().Key;
 
                     switch (input)
                     {
@@ -242,8 +248,8 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
 
                 } while (_choosing);
 
-                Console.Clear();
-                Console.Write("working...");
+                Clear();
+                Write("working...");
                 Thread.Sleep(250);
 
                 return choice;
@@ -272,7 +278,7 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
             {
                 // https://learn.microsoft.com/en-us/dotnet/api/system.consolekey?view=net-8.0
 
-                ConsoleKey consoleKey = Console.ReadKey().Key;
+                ConsoleKey consoleKey = ReadKey().Key;
                 switch (Key)
                 {
                     case KeyCode.A:
@@ -385,11 +391,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 Thread.Sleep(100);
             }
 
-            Console.Write('\n');
+            Write('\n');
         }
 
         /// <summary>
@@ -402,11 +408,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 Thread.Sleep(speed);
             }
 
-           Console.Write('\n');
+           Write('\n');
         }
 
         /// <summary>
@@ -419,11 +425,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 Thread.Sleep(100);
             }
 
-            if (endLine) Console.Write('\n');
+            if (endLine) Write('\n');
         }
 
         /// <summary>
@@ -436,11 +442,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 Thread.Sleep(speed);
             }
 
-            if (endLine) Console.Write('\n');
+            if (endLine) Write('\n');
         }
 
         /// <summary>
@@ -456,11 +462,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
             Random random = new();
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 Thread.Sleep(random.Next(minSpeed, maxSpeed + 1));
             }
 
-            if (endLine) Console.Write('\n');
+            if (endLine) Write('\n');
         }
 
         // PRINT WORDS
@@ -475,12 +481,12 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(500);
             }
 
-            Console.Write('\n');
+            Write('\n');
         }
 
         /// <summary>
@@ -493,12 +499,12 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(speed);
             }
 
-            Console.Write('\n');
+            Write('\n');
         }
 
         /// <summary>
@@ -511,12 +517,12 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(500);
             }
 
-            if (endLine) Console.Write('\n');
+            if (endLine) Write('\n');
         }
 
         /// <summary>
@@ -529,12 +535,12 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
         {
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(speed);
             }
 
-            if (endLine) Console.Write('\n');
+            if (endLine) Write('\n');
         }
 
         /// <summary>
@@ -550,12 +556,12 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
             Random random = new();
             foreach (char c in print)
             {
-                Console.Write(c);
+                Write(c);
                 if (c == ' ' || c == '.' || c == '?' || c == '!' || c == '-' || c == '=' || c == '\n') 
                     Thread.Sleep(random.Next(minSpeed, maxSpeed + 1));
             }
 
-            if (endLine) Console.Write('\n');
+            if (endLine) Write('\n');
         }
 
 
@@ -568,10 +574,10 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
             } 
             for (int i = 0; i < size + 1; i++)
             {
-                if (i < filled) Console.Write("|");
-                else if (i < size) Console.Write("-");
+                if (i < filled) Write("|");
+                else if (i < size) Write("-");
             }
-            Console.Write($"[{filled}]");
+            Write($"[{filled}]");
         }
 
         static public void SetColor(string foreground, string background)
@@ -579,80 +585,80 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
             switch (foreground)
             {
                 case "white":
-                    Console.ForegroundColor = ConsoleColor.White; break;
+                    ForegroundColor = ConsoleColor.White; break;
                 case "black":
-                    Console.ForegroundColor = ConsoleColor.Black; break;
+                    ForegroundColor = ConsoleColor.Black; break;
                 case "gray":
-                    Console.ForegroundColor = ConsoleColor.Gray; break;
+                    ForegroundColor = ConsoleColor.Gray; break;
                 case "grey":
-                    Console.ForegroundColor = ConsoleColor.Gray; break;
+                    ForegroundColor = ConsoleColor.Gray; break;
                 case "red":
-                    Console.ForegroundColor = ConsoleColor.Red; break;
+                    ForegroundColor = ConsoleColor.Red; break;
                 case "magenta":
-                    Console.ForegroundColor = ConsoleColor.Magenta; break;
+                    ForegroundColor = ConsoleColor.Magenta; break;
                 case "yellow":
-                    Console.ForegroundColor = ConsoleColor.Yellow; break;
+                    ForegroundColor = ConsoleColor.Yellow; break;
                 case "green":
-                    Console.ForegroundColor = ConsoleColor.Green; break;
+                    ForegroundColor = ConsoleColor.Green; break;
                 case "blue":
-                    Console.ForegroundColor = ConsoleColor.Blue; break;
+                    ForegroundColor = ConsoleColor.Blue; break;
                 case "cyan":
-                    Console.ForegroundColor = ConsoleColor.Cyan; break;
+                    ForegroundColor = ConsoleColor.Cyan; break;
                 case "darkblue":
-                    Console.ForegroundColor = ConsoleColor.DarkBlue; break;
+                    ForegroundColor = ConsoleColor.DarkBlue; break;
                 case "darkcyan":
-                    Console.ForegroundColor = ConsoleColor.DarkCyan; break;
+                    ForegroundColor = ConsoleColor.DarkCyan; break;
                 case "darkgray":
-                    Console.ForegroundColor = ConsoleColor.DarkGray; break;
+                    ForegroundColor = ConsoleColor.DarkGray; break;
                 case "darkgrey":
-                    Console.ForegroundColor = ConsoleColor.DarkGray; break;
+                    ForegroundColor = ConsoleColor.DarkGray; break;
                 case "darkgreen":
-                    Console.ForegroundColor = ConsoleColor.DarkGreen; break;
+                    ForegroundColor = ConsoleColor.DarkGreen; break;
                 case "darkmagenta":
-                    Console.ForegroundColor = ConsoleColor.DarkMagenta; break;
+                    ForegroundColor = ConsoleColor.DarkMagenta; break;
                 case "darkred":
-                    Console.ForegroundColor = ConsoleColor.DarkRed; break;
+                    ForegroundColor = ConsoleColor.DarkRed; break;
                 case "darkyellow":
-                    Console.ForegroundColor = ConsoleColor.DarkYellow; break;
+                    ForegroundColor = ConsoleColor.DarkYellow; break;
             }
             switch (background)
             {
                 case "white":
-                    Console.BackgroundColor = ConsoleColor.White; break;
+                    BackgroundColor = ConsoleColor.White; break;
                 case "black":
-                    Console.BackgroundColor = ConsoleColor.Black; break;
+                    BackgroundColor = ConsoleColor.Black; break;
                 case "gray":
-                    Console.BackgroundColor = ConsoleColor.Gray; break;
+                    BackgroundColor = ConsoleColor.Gray; break;
                 case "grey":
-                    Console.BackgroundColor = ConsoleColor.Gray; break;
+                    BackgroundColor = ConsoleColor.Gray; break;
                 case "red":
-                    Console.BackgroundColor = ConsoleColor.Red; break;
+                    BackgroundColor = ConsoleColor.Red; break;
                 case "magenta":
-                    Console.BackgroundColor = ConsoleColor.Magenta; break;
+                    BackgroundColor = ConsoleColor.Magenta; break;
                 case "yellow":
-                    Console.BackgroundColor = ConsoleColor.Yellow; break;
+                    BackgroundColor = ConsoleColor.Yellow; break;
                 case "green":
-                    Console.BackgroundColor = ConsoleColor.Green; break;
+                    BackgroundColor = ConsoleColor.Green; break;
                 case "blue":
-                    Console.BackgroundColor = ConsoleColor.Blue; break;
+                    BackgroundColor = ConsoleColor.Blue; break;
                 case "cyan":
-                    Console.BackgroundColor = ConsoleColor.Cyan; break;
+                    BackgroundColor = ConsoleColor.Cyan; break;
                 case "darkblue":
-                    Console.BackgroundColor = ConsoleColor.DarkBlue; break;
+                    BackgroundColor = ConsoleColor.DarkBlue; break;
                 case "darkcyan":
-                    Console.BackgroundColor = ConsoleColor.DarkCyan; break;
+                    BackgroundColor = ConsoleColor.DarkCyan; break;
                 case "darkgray":
-                    Console.BackgroundColor = ConsoleColor.DarkGray; break;
+                    BackgroundColor = ConsoleColor.DarkGray; break;
                 case "darkgrey":
-                    Console.BackgroundColor = ConsoleColor.DarkGray; break;
+                    BackgroundColor = ConsoleColor.DarkGray; break;
                 case "darkgreen":
-                    Console.BackgroundColor = ConsoleColor.DarkGreen; break;
+                    BackgroundColor = ConsoleColor.DarkGreen; break;
                 case "darkmagenta":
-                    Console.BackgroundColor = ConsoleColor.DarkMagenta; break;
+                    BackgroundColor = ConsoleColor.DarkMagenta; break;
                 case "darkred":
-                    Console.BackgroundColor = ConsoleColor.DarkRed; break;
+                    BackgroundColor = ConsoleColor.DarkRed; break;
                 case "darkyellow":
-                    Console.BackgroundColor = ConsoleColor.DarkYellow; break;
+                    BackgroundColor = ConsoleColor.DarkYellow; break;
             }
         }
         

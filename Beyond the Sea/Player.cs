@@ -1,4 +1,5 @@
-﻿using static Beyond_the_Sea.Program;
+﻿using System.ComponentModel.Design;
+using static Beyond_the_Sea.Program;
 
 namespace Beyond_the_Sea
 {
@@ -335,7 +336,11 @@ namespace Beyond_the_Sea
             while (!_done)
             {
                 Console.Clear();
-                Console.Write($"[{userName}] | POINTS LEFT: [{availablePoints}]\n");
+                Console.Write($"[{userName}] | POINTS LEFT: [");
+                if (error == 2) SetColor("red", "black"); 
+                Console.Write($"{availablePoints}");
+                DefaultColor();
+                Console.WriteLine(']');
 
                 CheckColor(0);
                 Console.Write("\nHealth:\t\t");
@@ -359,7 +364,7 @@ namespace Beyond_the_Sea
                 Console.WriteLine("To Invest: Points A/D | Left/Right Arrow Keys | Plus/Minus Keys\n");
 
                 if (error == 1) Error.Display("#010201"); // SPEND POINTS FIRST
-                else if (error == 2) Error.Display("##010201"); // NO POINTS LEFT
+                // else if (error == 2) Error.Display("#010202"); // NO POINTS LEFT
 
                 error = 0;
                 ConsoleKey input = Console.ReadKey().Key;
@@ -404,7 +409,6 @@ namespace Beyond_the_Sea
 
                 void investPoints(int amount)
                 {
-                    if (availablePoints == 0) error = 2;
                     switch (selected)
                     {
                         case 0:
@@ -444,6 +448,7 @@ namespace Beyond_the_Sea
                             break;
                     }
 
+                    if (availablePoints == 0) error = 2;
                     healthPoints = Math.Clamp(healthPoints, 0, 9);
                     meleeAttPoints = Math.Clamp(meleeAttPoints, 0, 9);
                     meleeDefPoints = Math.Clamp(meleeDefPoints, 0, 9);

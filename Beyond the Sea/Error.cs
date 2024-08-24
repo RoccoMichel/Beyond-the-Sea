@@ -17,41 +17,42 @@
             // No need to Organize in the switch unless very bored
 
             Program.SetColor("white", "red");
+            Console.Write("\n ");
             switch (CODE)
             {
                 case "NA":
-                    Console.Write("\n NO ERROR MESSAGE AVAILABLE, PLEACE CONTACT DEV! ");
+                    Console.Write("NO ERROR MESSAGE AVAILABLE, PLEACE CONTACT DEV!");
                     break;
 
                 // Program.cs
                 case "#000101":
-                    Console.Write("\n PrintSquares() int filled > int size, PLEACE CONTACT DEV! ");
+                    Console.Write("PrintSquares() int filled > int size, PLEACE CONTACT DEV!");
                     break;
                 case "#010201":
-                    Console.Write("\n YOU NEED TO SPEND ALL YOUR POINTS FIRST! ");
+                    Console.Write("YOU NEED TO SPEND ALL YOUR POINTS FIRST!");
                     break;
                 case "#010202":
-                    Console.Write("\n YOU DO NOT HAVE ANY POINTS LEFT! ");
+                    Console.Write("YOU DO NOT HAVE ANY POINTS LEFT!");
                     break;
 
                 case "#000302":
-                    Console.Write("\n ALREADY USING THIS SAVE SLOT ");
+                    Console.Write("ALREADY USING THIS SAVE SLOT");
                     break;
 
                 //  Data.cs
                 case "#D10101":
-                    Console.Write("\n SAVE FILE NOT FOUND ");
+                    Console.Write("SAVE FILE NOT FOUND");
                     break;
 
                 case "#D10102":
-                    Console.Write("\n COULDN'T WRITE TO SAVE\nACTION MIGHT BE BLOCKED BY ANITVIRUS ");
+                    Console.Write("COULDN'T WRITE TO SAVE \n ACTION MIGHT BE BLOCKED BY ANITVIRUS");
                     break;
 
                 case "#D10201":
-                    Console.Write("\n FILE NOT FOUND ");
+                    Console.Write("FILE NOT FOUND");
                     break;
             }
-            Console.Write("\n\n");
+            Console.Write(" \n\n");
             Program.DefaultColor();
         }
     }
