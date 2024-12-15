@@ -7,13 +7,16 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2024
     internal class Program
     {
         static public int saveSlot = 0;
+
         static void Main()
         {
             // HOLY SHIT I SHOULD FIGURE OUT SOME KIND OF COLOR FADE EFFECT (using lerps???)
 
-            Scenes.Island.Explore(new Vector2(10, 3));
+            Scenes.Island.Explore(new Vector2(10, 3), Scenes.Levels.C0_1);
 
             /* TEST ZONE END */
+
+            Game.SaveSlots();
 
             Title = "Beyond the Sea";
             DefaultColor();

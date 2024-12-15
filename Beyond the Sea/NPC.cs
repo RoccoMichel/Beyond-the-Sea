@@ -115,7 +115,7 @@ My name is ";
         }
         public class Templates
         {
-            public static Enemy Gnome = new()
+            public static Enemy Gnome { get; } = new()
             {
                 level = 1,
                 health = 100,
