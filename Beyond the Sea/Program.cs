@@ -11,9 +11,14 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2025
 
         static void Main()
         {
-            // HOLY SHIT I SHOULD FIGURE OUT SOME KIND OF COLOR FADE EFFECT (using lerps???)
+            //Scenes.Island.Explore(new Vector2(10, 3), Scenes.Levels.C0_1);
 
-            Scenes.Island.Explore(new Vector2(10, 3), Scenes.Levels.C0_1);
+            // Creating Character
+            Player Player = new();
+            Player.PlayerCreator();
+            Enemy[] fight1 = [Templates.Gnome, Templates.Gnome, Templates.Gnome];
+
+            Player.Battle(fight1);
 
             /* TEST ZONE END */
 
@@ -38,17 +43,11 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2025
                 ["[player name]", "[player level]", "[player xp]", "[stats (health, att, mag, attDef, magDef)]", "[player location]", "[inventory]"];
 
 
-            // Creating Character
-            Player Player = new();
-            Player.PlayerCreator();
-
             //Game.SaveSlots();
 
             // START UP
 
 
-            Enemy[] fight1 = [Templates.Gnome, Templates.Gnome, Templates.Gnome];
-            Player.Battle(fight1);
 
             //END
             return;
@@ -710,15 +709,39 @@ namespace Beyond_the_Sea // by ROCCO MICHEL | 2025
                     Write('\n');
                 }
 
+                string[] buttons = {
+                "┌─────────┐ ┌─────────┐ ┌────────┐ ┌───────────┐\n",
+                "├──FIGHT──┤", "├──MAGIC──┤", "├──ITEM──┤", "├──INSPECT──┤\n",
+                "├─>FIGHT<─┤", "├─>MAGIC<─┤", "├─>ITEM<─┤", "├─>INSPECT<─┤\n",
+                "└─────────┘ └─────────┘ └────────┘ └───────────┘\n" };
+
                 // Menu
+
+                string[] line1 = buttons[0].Split(' ');
+
+                for (int i = 0; i < line1.Length; i++)
+                {
+                    CheckColor(i, true);
+                    Write(line1[i]);
+                }
+
+                // line 2
                 CheckColor(0, true);
-                Write("\n\n\n[MELEE]\t");
+                Write(selected == 0 ? buttons[5] :  buttons[1]);
                 CheckColor(1, true);
-                Write("[MAGIC]\t");
+                Write(selected == 1 ? buttons[6] : buttons[2]); 
                 CheckColor(2, true);
-                Write("[ITEM]\t");
+                Write(selected == 2 ? buttons[7] : buttons[3]); 
                 CheckColor(3, true);
-                Write("[INSPECT]\n");
+                Write(selected == 3 ? buttons[8] : buttons[4]);
+
+                string[] line3 = buttons[9].Split(' ');
+
+                for (int i = 0; i < line3.Length; i++)
+                {
+                    CheckColor(i, true);
+                    Write(line3[i]);
+                }
 
                 // health
                 Program.SetColor(ConsoleColor.Green, ConsoleColor.Black);
